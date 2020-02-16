@@ -1,0 +1,10 @@
+server:
+  port: ${APP_SERVER_PORT}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+APP_SERVER_PORT: ${SERVER_PORT:12345}
