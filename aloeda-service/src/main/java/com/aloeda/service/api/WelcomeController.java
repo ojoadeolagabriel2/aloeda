@@ -20,4 +20,9 @@ public class WelcomeController {
         log.info("processing welcome::get ->" + id);
         return ok(format("found: %s", id));
     }
+
+    @GetMapping()
+    public ResponseEntity<String> get() {
+        return ok(format("found: %s", "default"));
+    }
 }

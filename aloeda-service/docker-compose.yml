@@ -1,19 +1,33 @@
 version: '3'
 
 services:
-  nginx:
-    container_name: some-nginx
-    image: nginx:1.13
-    restart: always
+  nginx-lb:
+    container_name: "app_gateway"
+    build: ./nginx
     ports:
-      - 80:80
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - "80:80"
+    links:
+      - app_1
+      - app_2
+      - app_3
     depends_on:
-      - app
-
-  app:
-    restart: always
+      - app_1
+      - app_2
+      - app_3
+  app_1:
+    container_name: "app_1"
     build: .
-    expose:
+    ports:
+      - "12345"
+    environment:
+      - SERVER_PORT=54321
+  app_2:
+    container_name: "app_2"
+    build: .
+    ports:
+      - "12345"
+  app_3:
+    container_name: "app_3"
+    build: .
+    ports:
       - "12345"
