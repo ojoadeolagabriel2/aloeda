@@ -7,6 +7,19 @@ management:
       exposure:
         include: ${APP_ENDPOINT_WEB_EXPOSURE_INCLUDE}
 
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://${APP_ALOEDA_DB_HOST}:5432/aloeda
+    username: ${APP_ALOEDA_DB_USERNAME}
+    password: ${APP_ALOEDA_DB_PASSWORD}
+
+APP_ALOEDA_DB_HOST: ${ALOEDA_DB_HOST:localhost}
+APP_ALOEDA_DB_USERNAME: ${ALOEDA_DB_USERNAME:user}
+APP_ALOEDA_DB_PASSWORD: ${ALOEDA_DB_PASSWORD:password}
+
 APP_SERVER_PORT: ${SERVER_PORT:12345}
 APP_ENDPOINT_WEB_EXPOSURE_INCLUDE: ${ENDPOINT_EXPOSURE_INCLUDE:*}
 ---
