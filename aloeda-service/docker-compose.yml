@@ -20,12 +20,14 @@ services:
     ports:
       - "12345"
     environment:
-      - SERVER_PORT=54321
+      - SERVER_PORT=12345
   app_2:
     container_name: "app_2"
     build: .
     ports:
       - "12345"
+    environment:
+      - ENDPOINT_EXPOSURE_INCLUDE=*
   app_3:
     container_name: "app_3"
     build: .

@@ -1,7 +1,8 @@
 # Gradle
 # ------
 aloeda-service/.gradle
-/build
+**/build
+**/.gradle
 /buildSrc/build
 /buildSrc/subprojects/*/build
 /subprojects/*/build
