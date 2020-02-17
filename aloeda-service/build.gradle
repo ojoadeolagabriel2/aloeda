@@ -7,7 +7,7 @@ buildscript {
         lombokVersion = '1.18.4'
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE"
     }
 }
 
@@ -16,13 +16,14 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.0.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
-    id 'net.nemerosa.versioning' version '2.8.2'
+    id 'com.palantir.git-version' version '0.12.2'
 }
 
 apply plugin: 'maven-publish'
 
+def details = versionDetails()
 group 'org.example'
-version versioning.info.full
+version(details.gitHash)
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
