@@ -5,6 +5,9 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: ${APP_ENDPOINT_EXPOSURE_INCLUDE}
 
 APP_SERVER_PORT: ${SERVER_PORT:12345}
+APP_ENDPOINT_EXPOSURE_INCLUDE: ${ENDPOINT_EXPOSURE_INCLUDE:*}
+---
+

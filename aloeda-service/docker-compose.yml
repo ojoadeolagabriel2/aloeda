@@ -1,5 +1,19 @@
-version: "3"
+version: '3'
+
 services:
-  aloeda-service:
-    build:
-      context: .
+  nginx:
+    container_name: some-nginx
+    image: nginx:1.13
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+
+  app:
+    restart: always
+    build: .
+    expose:
+      - "12345"

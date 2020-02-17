@@ -23,7 +23,7 @@ apply plugin: 'maven-publish'
 
 def details = versionDetails()
 group 'org.example'
-version(details.gitHash)
+version("1.1-${details.gitHash}")
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
