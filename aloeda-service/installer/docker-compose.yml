@@ -6,27 +6,29 @@ services:
     container_name: "app_zookeeper"
     image: zookeeper:3.4.9
     hostname: zoo1
-    ports:
-      - "2182:2182"
+    expose:
+      - "2181"
     environment:
       ZOO_MY_ID: 1
-      ZOO_PORT: 2182
+      ZOO_PORT: 2181
       ZOO_SERVERS: server.1=zoo1:2888:3888
     volumes:
       - /data
       - /datalog
+    networks:
+      - springboot-network
 
   kafka1:
     container_name: "app_kafka"
     image: confluentinc/cp-kafka:5.4.0
     hostname: kafka1
-    ports:
-      - "9093:9093"
+    expose:
+      - "9092"
     environment:
-      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9093
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2182"
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
       KAFKA_BROKER_ID: 1
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -34,6 +36,8 @@ services:
       - /var/lib/kafka/data
     depends_on:
       - zoo1
+    networks:
+      - springboot-network
 
   app-db:
     container_name: "app_db"
@@ -44,18 +48,19 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=user
       - POSTGRES_DB=aloeda
+    networks:
+      - springboot-network
 
   nginx-lb:
     container_name: "app_gateway"
     build: nginx
     ports:
       - "80:80"
-    links:
-      - app_1
-      - app_2
     depends_on:
       - app_1
       - app_2
+    networks:
+      - springboot-network
 
   app_1:
     container_name: "app_1"
@@ -65,12 +70,12 @@ services:
     environment:
       - ALOEDA_DB_HOST=app-db
       - APP_NAME=instance-1
-      - ALOEDA_KAFKA_HOST=kafka1:9093
-    links:
-      - kafka1
+      - ALOEDA_KAFKA_HOST=kafka1:9092
     depends_on:
       - app-db
       - kafka1
+    networks:
+      - springboot-network
 
   app_2:
     container_name: "app_2"
@@ -80,11 +85,16 @@ services:
     environment:
       - ALOEDA_DB_HOST=app-db
       - APP_NAME=instance-2
-      - ALOEDA_KAFKA_HOST=kafka1:9093
-    links:
-      - kafka1
+      - ALOEDA_KAFKA_HOST=kafka1:9092
     depends_on:
       - app-db
       - kafka1
+    networks:
+      - springboot-network
+
 volumes:
   my-db:
+
+networks:
+  springboot-network:
+    driver: bridge

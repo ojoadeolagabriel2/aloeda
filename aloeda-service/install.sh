@@ -10,6 +10,7 @@
 docker stop $(docker ps -a -q) && docker rm -f $(docker ps -a -q)
 docker image prune -f
 docker volume prune -f
+docker network prune -f
 
 # switch to installer
 cd installer
