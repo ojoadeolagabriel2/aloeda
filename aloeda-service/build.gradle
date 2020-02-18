@@ -55,19 +55,24 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-jetty"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation 'org.springframework.kafka:spring-kafka'
 
     // db
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.10'
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
 
+    // monitoring
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.3.5'
+    implementation group: 'io.micrometer', name: 'micrometer-core', version: '1.3.5'
+
     // spock
     testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
 
     // lombok
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
-    testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
-    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
-    testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // others
     compile 'org.codehaus.groovy:groovy-all:3.0.0'

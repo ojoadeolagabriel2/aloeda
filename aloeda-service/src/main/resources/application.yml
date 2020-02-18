@@ -2,12 +2,27 @@ server:
   port: ${APP_SERVER_PORT}
 
 management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
   endpoints:
     web:
       exposure:
         include: ${APP_ENDPOINT_WEB_EXPOSURE_INCLUDE}
 
 spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${APP_ALOEDA_KAFKA_HOST}
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: ${APP_ALOEDA_KAFKA_HOST}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   jpa:
     properties:
       hibernate:
@@ -25,7 +40,10 @@ spring:
     schemas: aloeda
     user: ${APP_ALOEDA_DB_USERNAME}
     password: ${APP_ALOEDA_DB_PASSWORD}
+  application:
+    name: ${APP_NAME:instance-0}
 
+APP_ALOEDA_KAFKA_HOST: ${ALOEDA_KAFKA_HOST:localhost:9093}
 APP_ALOEDA_DB_PORT: ${ALOEDA_DB_PORT:5432}
 APP_ALOEDA_DB_HOST: ${ALOEDA_DB_HOST:localhost}
 APP_ALOEDA_DB_USERNAME: ${ALOEDA_DB_USERNAME:user}

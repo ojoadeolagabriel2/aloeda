@@ -1,6 +1,40 @@
 version: '3'
 
 services:
+
+  zoo1:
+    container_name: "app_zookeeper"
+    image: zookeeper:3.4.9
+    hostname: zoo1
+    ports:
+      - "2182:2182"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2182
+      ZOO_SERVERS: server.1=zoo1:2888:3888
+    volumes:
+      - /data
+      - /datalog
+
+  kafka1:
+    container_name: "app_kafka"
+    image: confluentinc/cp-kafka:5.4.0
+    hostname: kafka1
+    ports:
+      - "9093:9093"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2182"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - /var/lib/kafka/data
+    depends_on:
+      - zoo1
+
   app-db:
     container_name: "app_db"
     image: postgres
@@ -31,8 +65,12 @@ services:
     environment:
       - SERVER_PORT=12345
       - ALOEDA_DB_HOST=app-db
+      - APP_NAME=instance-1
+      - ALOEDA_KAFKA_HOST=kafka1:9093
     depends_on:
       - app-db
+    links:
+      - kafka1
   app_2:
     container_name: "app_2"
     build: ../
@@ -41,6 +79,11 @@ services:
     environment:
       - ENDPOINT_EXPOSURE_INCLUDE=*
       - ALOEDA_DB_HOST=app-db
-
+      - APP_NAME=instance-2
+      - ALOEDA_KAFKA_HOST=kafka1:9093
+    depends_on:
+      - app-db
+    links:
+      - kafka1
 volumes:
   my-db:

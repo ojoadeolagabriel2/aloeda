@@ -14,7 +14,7 @@ docker volume prune -f
 # switch to installer
 cd installer
 
-# Install
+# install
 docker-compose rm -f
 docker-compose pull
 docker-compose up --build -d
