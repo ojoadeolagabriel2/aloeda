@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
 
@@ -63,27 +63,28 @@ services:
     ports:
       - "12345"
     environment:
-      - SERVER_PORT=12345
       - ALOEDA_DB_HOST=app-db
       - APP_NAME=instance-1
       - ALOEDA_KAFKA_HOST=kafka1:9093
-    depends_on:
-      - app-db
     links:
       - kafka1
+    depends_on:
+      - app-db
+      - kafka1
+
   app_2:
     container_name: "app_2"
     build: ../
     ports:
       - "12345"
     environment:
-      - ENDPOINT_EXPOSURE_INCLUDE=*
       - ALOEDA_DB_HOST=app-db
       - APP_NAME=instance-2
       - ALOEDA_KAFKA_HOST=kafka1:9093
+    links:
+      - kafka1
     depends_on:
       - app-db
-    links:
       - kafka1
 volumes:
   my-db:

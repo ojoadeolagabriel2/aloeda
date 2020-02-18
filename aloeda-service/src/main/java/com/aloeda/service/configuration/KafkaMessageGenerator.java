@@ -16,14 +16,16 @@ import static java.lang.String.format;
 @EnableScheduling
 @RequiredArgsConstructor
 public class KafkaMessageGenerator {
-    private static final String TOPIC = "TOPIC2";
+    private static final String TOPIC = "TOPIC3";
     private final Environment environment;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Scheduled(fixedRate = 2000)
     public void run() {
         try {
-            String message = format("%s-%s", environment.getProperty("spring.application.name"), "message_" + System.currentTimeMillis());
+            String message = format("%s-%s"
+                    , environment.getProperty("spring.application.name")
+                    , "message_" + System.currentTimeMillis());
             log.info(format("#### -> Producing message -> %s", message));
             this.kafkaTemplate.send(TOPIC, message);
         } catch (Exception exc) {
