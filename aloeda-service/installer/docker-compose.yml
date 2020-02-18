@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  app-db:
+    container_name: "app_db"
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=aloeda
+
+  nginx-lb:
+    container_name: "app_gateway"
+    build: nginx
+    ports:
+      - "80:80"
+    links:
+      - app_1
+      - app_2
+    depends_on:
+      - app_1
+      - app_2
+
+  app_1:
+    container_name: "app_1"
+    build: ../
+    ports:
+      - "12345"
+    environment:
+      - SERVER_PORT=12345
+      - ALOEDA_DB_HOST=app-db
+    depends_on:
+      - app-db
+  app_2:
+    container_name: "app_2"
+    build: ../
+    ports:
+      - "12345"
+    environment:
+      - ENDPOINT_EXPOSURE_INCLUDE=*
+      - ALOEDA_DB_HOST=app-db
+
+volumes:
+  my-db:

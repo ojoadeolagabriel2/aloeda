@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/aloeda.iml" filepath="$PROJECT_DIR$/.idea/aloeda.iml" />
-      <module fileurl="file://$PROJECT_DIR$/aloeda-web/aloeda-web.iml" filepath="$PROJECT_DIR$/aloeda-web/aloeda-web.iml" />
     </modules>
   </component>
 </project>

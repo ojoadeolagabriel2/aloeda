@@ -1,0 +1,1 @@
+SPRING_PROFILES_ACTIVE=unit_test gradle clean bootRun
