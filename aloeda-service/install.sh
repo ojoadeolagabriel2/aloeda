@@ -4,18 +4,20 @@
 # Description : Simple app service installer
 
 # vars
-START_CONTAINERS=false
+BUILD_CONTAINERS=false     # build containers
+RUN_CONTAINERS=false       # run containers on ready
 
-while getopts s: option
+while getopts b:r: option
 do
     case "${option}"
     in
-    s) START_CONTAINERS=${OPTARG};;
+    b) BUILD_CONTAINERS=${OPTARG};;
+    r) RUN_CONTAINERS=${OPTARG};;
     esac
 done
 
 # build
-./gradlew clean build
+./gradlew clean assemble
 
 # cleanup
 docker stop $(docker ps -a -q) && docker rm -f $(docker ps -a -q)
@@ -23,14 +25,15 @@ docker image prune -f
 docker volume prune -f
 docker network prune -f
 
-if [[ "$START_CONTAINERS" == 'true' ]]; then
-    echo "starting apps $START_CONTAINERS"
-
+if [[ "$BUILD_CONTAINERS" == 'true' ]]; then
     # switch to installer
     cd installer
 
     # install
     docker-compose rm -f
     docker-compose pull
+fi
+
+if [[ "$RUN_CONTAINERS" == 'true' ]]; then
     docker-compose up --build -d --scale app_redis_replica=2
 fi
