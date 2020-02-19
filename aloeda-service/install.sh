@@ -32,5 +32,5 @@ if [[ "$START_CONTAINERS" == 'true' ]]; then
     # install
     docker-compose rm -f
     docker-compose pull
-    docker-compose up --build -d
+    docker-compose up --build -d --scale app_redis_replica=2
 fi
