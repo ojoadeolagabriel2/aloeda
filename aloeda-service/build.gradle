@@ -9,14 +9,14 @@ buildscript {
         lombokVersion = '1.18.4'
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE"
     }
 }
 
 plugins {
     id 'groovy'
     id 'java'
-    id 'org.springframework.boot' version '2.0.1.RELEASE'
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
     id 'com.palantir.git-version' version '0.12.2'
 }
@@ -35,8 +35,6 @@ repositories {
     mavenCentral()
 }
 
-ext['groovy.version'] = '2.5.0'
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -52,6 +50,10 @@ task BuildAndPrintVersion(dependsOn: ":build") {
 }
 
 dependencies {
+    // JAX-B dependencies for JDK 9+
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    
     // spring
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude module: "spring-boot-starter-tomcat"
@@ -70,7 +72,8 @@ dependencies {
     implementation group: 'io.micrometer', name: 'micrometer-core', version: '1.3.5'
 
     // spock
-    testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
+    testImplementation 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testImplementation 'org.spockframework:spock-spring:1.1-groovy-2.4'
 
     // lombok
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -79,7 +82,7 @@ dependencies {
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // others
-    compile 'org.codehaus.groovy:groovy-all:3.0.0'
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
