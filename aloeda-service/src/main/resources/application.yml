@@ -11,6 +11,10 @@ management:
       exposure:
         include: ${APP_ENDPOINT_WEB_EXPOSURE_INCLUDE}
 
+app:
+  message-generator:
+    enabled: true
+
 spring:
   kafka:
     consumer:
@@ -51,17 +55,30 @@ APP_ALOEDA_DB_PASSWORD: ${ALOEDA_DB_PASSWORD:password}
 
 APP_SERVER_PORT: ${SERVER_PORT:12345}
 APP_ENDPOINT_WEB_EXPOSURE_INCLUDE: ${ENDPOINT_EXPOSURE_INCLUDE:*}
----
 
+---
 spring:
-  profiles: unit_test
+  profiles: no_datasource
   autoconfigure:
     exclude: >
       org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
       org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
       org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
----
+  flyway:
+    enabled: false
 
+---
+spring:
+  profiles: no_kafka
+  autoconfigure:
+    exclude: >
+      org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+app:
+  message-generator:
+    enabled: false
+
+---
 spring:
   profiles: integration_test
   autoconfigure:
