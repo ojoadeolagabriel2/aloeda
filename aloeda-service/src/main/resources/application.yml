@@ -13,7 +13,7 @@ management:
 
 app:
   message-generator:
-    enabled: true
+    enabled: ${APP_MESSAGE_GENERATOR_ENABLED}
 
 spring:
   kafka:
@@ -44,9 +44,11 @@ spring:
     schemas: aloeda
     user: ${APP_ALOEDA_DB_USERNAME}
     password: ${APP_ALOEDA_DB_PASSWORD}
+    enabled: ${APP_FLYWAY_ENABLED}
   application:
     name: ${APP_NAME:instance-0}
 
+APP_FLYWAY_ENABLED: ${FLYWAY_ENABLED:true}
 APP_ALOEDA_KAFKA_HOST: ${ALOEDA_KAFKA_HOST:localhost:9096}
 APP_ALOEDA_DB_PORT: ${ALOEDA_DB_PORT:5432}
 APP_ALOEDA_DB_HOST: ${ALOEDA_DB_HOST:localhost}
@@ -54,8 +56,11 @@ APP_ALOEDA_DB_USERNAME: ${ALOEDA_DB_USERNAME:user}
 APP_ALOEDA_DB_PASSWORD: ${ALOEDA_DB_PASSWORD:password}
 
 APP_SERVER_PORT: ${SERVER_PORT:12345}
+APP_MESSAGE_GENERATOR_ENABLED: ${MESSAGE_GENERATOR_ENABLED:true}
 APP_ENDPOINT_WEB_EXPOSURE_INCLUDE: ${ENDPOINT_EXPOSURE_INCLUDE:*}
-
+---
+spring:
+  profiles: dev
 ---
 spring:
   profiles: no_datasource
@@ -64,9 +69,8 @@ spring:
       org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
       org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
       org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
-  flyway:
-    enabled: false
 
+APP_FLYWAY_ENABLED: false
 ---
 spring:
   profiles: no_kafka
@@ -74,12 +78,17 @@ spring:
     exclude: >
       org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
 
-app:
-  message-generator:
-    enabled: false
-
+APP_MESSAGE_GENERATOR_ENABLED: false
 ---
 spring:
-  profiles: integration_test
+  profiles: integration_test_no_kafka_and_datasource
   autoconfigure:
-    exclude:
+    exclude: >
+      org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
+      org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
+      org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,
+      org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+APP_FLYWAY_ENABLED: false
+APP_MESSAGE_GENERATOR_ENABLED: false
+

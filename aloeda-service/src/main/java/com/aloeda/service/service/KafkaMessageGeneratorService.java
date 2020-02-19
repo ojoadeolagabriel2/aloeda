@@ -7,6 +7,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import static java.lang.String.format;
 
 @Slf4j
@@ -16,12 +18,12 @@ public class KafkaMessageGeneratorService {
     private final Environment environment;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Scheduled(fixedRate = 2000)
+    private AtomicLong counter = new AtomicLong();
+
+    @Scheduled(fixedRate = 3000)
     public void run() {
         try {
-            String message = format("%s-%s"
-                    , environment.getProperty("spring.application.name")
-                    , "message_" + System.currentTimeMillis());
+            String message = format("%s-%s", environment.getProperty("spring.application.name"), "message_" + counter.addAndGet(1L));
             log.info(format("#### -> Producing message -> %s", message));
             this.kafkaTemplate.send(TOPIC, message);
         } catch (Exception exc) {

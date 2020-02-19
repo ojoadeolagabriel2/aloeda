@@ -6,16 +6,17 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
-@AutoConfigureMockMvc(secure=false)
-@ActiveProfiles(profiles = ["no_datasource", "no_kafka"])
+@AutoConfigureMockMvc(secure = false)
+@ActiveProfiles(profiles = ["integration_test_no_kafka_and_datasource"])
 class WelcomeControllerTest extends Specification {
 
-    @Autowired(required = false)
+    @Autowired
     WelcomeController controller
 
     @Autowired
@@ -26,12 +27,19 @@ class WelcomeControllerTest extends Specification {
         controller
     }
 
-    def "call endpoint" () {
+    @Unroll
+    def "call endpoint for id: #input"() {
         expect: "Status is 200 and the response is json with 'simple test request'"
-        mvc.perform(get("/api/v1/welcome/1"))
+        mvc.perform(get("/api/v1/welcome/" + input))
                 .andExpect(status().isOk())
                 .andReturn()
                 .response
-                .contentAsString == "{\"id\":\"1\",\"name\":\"instance-0\",\"description\":\"simple test request\"}"
+                .contentAsString == String.format("{\"id\":\"%s\",\"name\":\"instance-0\",\"description\":\"simple test request\"}", output)
+        where:
+        input || output
+        1     || 1
+        2     || 2
+        3     || 3
+        "ID3" || "ID3"
     }
 }
