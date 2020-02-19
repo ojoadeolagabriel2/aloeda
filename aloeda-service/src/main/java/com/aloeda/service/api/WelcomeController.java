@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.aloeda.service.dto.result.WelcomeResult.*;
 import static java.lang.String.format;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
@@ -25,8 +26,7 @@ public class WelcomeController {
     @GetMapping(value = "/{id:^[a-zA-Z0-9_]*$}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<WelcomeResult> get(@PathVariable String id) {
         return ok(
-                WelcomeResult
-                        .builder()
+                aWelcomeResult()
                         .id(id)
                         .name(environment.getProperty("spring.application.name"))
                         .description("simple test request")
