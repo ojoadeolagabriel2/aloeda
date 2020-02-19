@@ -33,6 +33,8 @@ repositories {
     mavenCentral()
 }
 
+ext['groovy.version'] = '2.5.0'
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
