@@ -1,3 +1,5 @@
+import static java.lang.System.out
+
 buildscript {
     repositories {
         mavenLocal()
@@ -23,7 +25,7 @@ apply plugin: 'maven-publish'
 
 def details = versionDetails()
 group 'org.example'
-version("1.1-${details.gitHash}")
+version("1.2-${details.gitHash}-${System.currentTimeMillis()}")
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -45,7 +47,7 @@ publishing {
 
 task BuildAndPrintVersion(dependsOn: ":build") {
     doLast {
-        System.out.println(version)
+        out.println(version)
     }
 }
 
