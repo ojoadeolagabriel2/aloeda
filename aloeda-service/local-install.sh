@@ -4,10 +4,11 @@
 # Description : Simple app service installer
 
 # vars
-COMPILE_CONTAINERS=true     # build containers
-RUN_CONTAINERS=true         # run containers on ready
-STOP_ALL=true               # reset all images and containers
-PRUNE_ALL=true              # prune all images and containers
+COMPILE_CONTAINERS=true                     # build containers
+RUN_CONTAINERS=true                         # run containers on ready
+STOP_ALL=true                               # reset all images and containers
+PRUNE_ALL=true                              # prune all images and containers
+INSTALLER_PATH=$(dirname $0)/installer      # installer.sh path
 
 while getopts c:r:a:p: option
 do
@@ -38,10 +39,10 @@ fi
 # prep all
 if [[ "$COMPILE_CONTAINERS" == 'true' ]]; then
     # switch and compose
-    (cd $(dirname $0)/installer && docker-compose rm -f && docker-compose pull)
+    (cd ${INSTALLER_PATH} && docker-compose rm -f && docker-compose pull)
 fi
 
 # run all
 if [[ "$RUN_CONTAINERS" == 'true' ]]; then
-    (cd $(dirname $0)/installer && docker-compose up --build -d --scale app_redis_replica=3)
+    (cd ${INSTALLER_PATH} && docker-compose up --build -d --scale app_redis_replica=3)
 fi
