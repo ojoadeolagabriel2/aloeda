@@ -1,18 +1,73 @@
+import static java.lang.System.out
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    ext {
+        lombokVersion = '1.18.4'
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE"
+    }
+}
+
 plugins {
     id 'groovy'
     id 'java'
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'com.palantir.git-version' version '0.12.2'
 }
 
+apply plugin: 'maven-publish'
+
+def details = versionDetails()
 group 'org.example'
-version '1.0-SNAPSHOT'
+version("1.2-${details.gitHash}-${System.currentTimeMillis()}")
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+task BuildAndPrintVersion(dependsOn: ":build") {
+    doLast {
+        out.println(version)
+    }
+}
+
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    // spring
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+
+    // spock
+    testImplementation 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testImplementation 'org.spockframework:spock-spring:1.1-groovy-2.4'
+
+    // lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // others
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.2.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

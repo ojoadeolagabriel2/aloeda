@@ -5,15 +5,15 @@ services:
     container_name: "gateway"
     build: nginx
     ports:
-      - "12345"
+      - "12345:12345"
     networks:
       - app-network
 
-  web-app:
+  webapp:
     container_name: "webapp"
     build: ../
     ports:
-      - "12345"
+      - "3010:3000"
     networks:
       - app-network
 
