@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  nginx:
+    container_name: "gateway"
+    build: nginx
+    ports:
+      - "12345"
+    networks:
+      - app-network
+
+  web-app:
+    container_name: "webapp"
+    build: ../
+    ports:
+      - "12345"
+    networks:
+      - app-network
+
+volumes:
+  app:
+
+networks:
+  app-network:
+    driver: bridge

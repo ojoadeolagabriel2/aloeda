@@ -11,7 +11,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - springboot-network
+      - app-network
 
   app_redis_replica:
     image: 'bitnami/redis:latest'
@@ -26,14 +26,14 @@ services:
       - REDIS_MASTER_PASSWORD=my_master_password
       - REDIS_PASSWORD=my_replica_password
     networks:
-      - springboot-network
+      - app-network
 
   zookeeper1:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
     hostname: zookeeper
     networks:
-      - springboot-network
+      - app-network
     ports:
       - "2181"
     environment:
@@ -47,7 +47,7 @@ services:
     depends_on:
       - zookeeper1
     networks:
-      - springboot-network
+      - app-network
     ports:
       - "9096:9092"
     environment:
@@ -67,7 +67,7 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_DB=aloeda
     networks:
-      - springboot-network
+      - app-network
 
   nginx-lb:
     container_name: "app_gateway"
@@ -78,7 +78,7 @@ services:
       - app_1
       - app_2
     networks:
-      - springboot-network
+      - app-network
 
   app_1:
     container_name: "app_1"
@@ -93,7 +93,7 @@ services:
       - app-db
       - kafka1
     networks:
-      - springboot-network
+      - app-network
 
   app_2:
     container_name: "app_2"
@@ -108,11 +108,11 @@ services:
       - app-db
       - kafka1
     networks:
-      - springboot-network
+      - app-network
 
 volumes:
   my-db:
 
 networks:
-  springboot-network:
+  app-network:
     driver: bridge

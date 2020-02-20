@@ -17,7 +17,6 @@ public class KafkaMessageGeneratorService {
     private static final String TOPIC = "TOPIC3";
     private final Environment environment;
     private final KafkaTemplate<String, String> kafkaTemplate;
-
     private AtomicLong counter = new AtomicLong();
 
     @Scheduled(fixedRate = 3000)
