@@ -20,8 +20,8 @@ do
     esac
 done
 
-# build
-./gradlew clean assemble
+# clean and assemble
+(cd "$(dirname $0)" && gradle clean assemble)
 
 # stop all
 if [[ "$STOP_ALL" == 'true' ]]; then
@@ -37,15 +37,11 @@ fi
 
 # prep all
 if [[ "$COMPILE_CONTAINERS" == 'true' ]]; then
-    # switch to installer
-    cd installer
-
-    # install
-    docker-compose rm -f
-    docker-compose pull
+    # switch and compose
+    (cd $(dirname $0)/installer && docker-compose rm -f && docker-compose pull)
 fi
 
 # run all
 if [[ "$RUN_CONTAINERS" == 'true' ]]; then
-    docker-compose up --build -d --scale app_redis_replica=3
+    (cd $(dirname $0)/installer && docker-compose up --build -d --scale app_redis_replica=3)
 fi
