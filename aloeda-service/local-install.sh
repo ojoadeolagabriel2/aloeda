@@ -14,7 +14,7 @@ while getopts c:r:a:p: option
 do
     case "${option}"
     in
-    a) PRUNE_ALL=${OPTARG};;
+    p) PRUNE_ALL=${OPTARG};;
     a) STOP_ALL=${OPTARG};;
     c) COMPILE_CONTAINERS=${OPTARG};;
     r) RUN_CONTAINERS=${OPTARG};;
