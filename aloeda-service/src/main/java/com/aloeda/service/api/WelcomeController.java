@@ -1,5 +1,6 @@
 package com.aloeda.service.api;
 
+import com.aloeda.service.dto.result.CharacterDto;
 import com.aloeda.service.dto.result.WelcomeResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.aloeda.service.dto.result.WelcomeResult.*;
+import java.util.List;
+
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -26,16 +29,21 @@ public class WelcomeController {
     @GetMapping(value = "/{id:^[a-zA-Z0-9_]*$}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<WelcomeResult> get(@PathVariable String id) {
         return ok(
-                aWelcomeResult()
-                        .id(id)
-                        .name(environment.getProperty("spring.application.name"))
-                        .description("simple test request")
-                        .build()
+                new WelcomeResult(id, environment.getProperty("spring.application.name"), "a simple welcome!")
         );
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> get() {
         return ok(format("found: %s", "default"));
+    }
+
+    @GetMapping(value = "/characters", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CharacterDto>> getCharacters() {
+        List<CharacterDto> list = asList(
+                new CharacterDto("adeola.ojo", "developer"),
+                new CharacterDto("blake.lively", "actor")
+        );
+        return ok(list);
     }
 }

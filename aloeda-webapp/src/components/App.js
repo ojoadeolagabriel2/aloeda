@@ -1,4 +1,5 @@
 import React from 'react';
+import {getCharacters} from '../service/api/service'
 
 const TableBody = props => {
     const rows = props.characterData.map((row, index) => {
@@ -109,6 +110,10 @@ export default class App extends React.Component {
             })
         })
     };
+
+    componentDidMount() {
+        getCharacters(this.state.characters)
+    }
 
     render() {
         return (

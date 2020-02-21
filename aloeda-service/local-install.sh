@@ -44,5 +44,5 @@ fi
 
 # run all
 if [[ "$RUN_CONTAINERS" == 'true' ]]; then
-    (cd ${INSTALLER_PATH} && docker-compose up --build -d --scale app_redis_replica=3)
+    (cd ${INSTALLER_PATH} && docker-compose up --build -d --scale app_redis_replica=3 --remove-orphans)
 fi
