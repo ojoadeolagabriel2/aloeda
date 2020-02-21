@@ -42,7 +42,11 @@ public class WelcomeController {
     public ResponseEntity<List<CharacterDto>> getCharacters() {
         List<CharacterDto> list = asList(
                 new CharacterDto("adeola.ojo", "developer"),
-                new CharacterDto("blake.lively", "actor")
+                new CharacterDto("blake.lively", "actor"),
+                new CharacterDto("action.mike", "singer"),
+                new CharacterDto("fisher.price", "toy maker in school"),
+                new CharacterDto("montero.black", "actor"),
+                new CharacterDto("renee.bob", "writer")
         );
         return ok(list);
     }
