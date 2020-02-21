@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 
 const initialState = {
-    count: 0
+    count: 1
 };
 
 function reducer(state = initialState, action) {
@@ -17,7 +17,7 @@ function reducer(state = initialState, action) {
             };
         case 'DECREMENT':
             return {
-                count: state.count + 1
+                count: state.count - 1
             };
         default:
             return state;
