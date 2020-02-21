@@ -27,8 +27,8 @@ class Counter extends React.Component {
 }
 
 const mapDispatchToProps = {
-    decrement,
-    increment
+    increment,
+    decrement
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);

@@ -1,6 +1,7 @@
 import React, {useRef} from "react";
 import {getCharacters} from '../service/api/service'
 import Counter from "./Counter/Counter";
+import Label from "./Label/Label";
 
 const DEFAULT_LOGIN = {
     user: {
@@ -175,8 +176,8 @@ export default class App extends React.Component {
                 <If condition={true}
                     then={loginComponent}
                     else={emptyComponent}/>
-
                 <Counter/>
+                <Label/>
             </div>
         )
     }
