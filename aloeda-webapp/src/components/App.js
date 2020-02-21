@@ -99,7 +99,7 @@ export default class App extends React.Component {
     };
 
     handleSubmit = character => {
-        this.setState({ characters: [...this.state.characters, character] })
+        this.setState({characters: [...this.state.characters, character]})
     };
 
     removeCharacter = index => {
@@ -112,7 +112,10 @@ export default class App extends React.Component {
     };
 
     componentDidMount() {
-        getCharacters(this.state.characters)
+        getCharacters()
+            .then(res => this.setState({
+                characters: res.data
+            }))
     }
 
     render() {
