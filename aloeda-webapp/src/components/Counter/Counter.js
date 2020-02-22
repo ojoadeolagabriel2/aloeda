@@ -1,14 +1,7 @@
 import React from "react";
-import {connect} from 'react-redux';
-import {increment, decrement} from '../Utils/action';
+import {Button, Label, Step, Message, Icon} from 'semantic-ui-react'
 
-function mapStateToProps(state) {
-    return {
-        count: state.count
-    };
-}
-
-class Counter extends React.Component {
+export default class Counter extends React.Component {
     decrement = () => {
         this.props.decrement();
     };
@@ -18,17 +11,49 @@ class Counter extends React.Component {
     };
 
     render() {
+        const MessageExampleIcon = () => (
+            <Message icon>
+                <Icon name='sync' loading/>
+                <Message.Content>
+                    <Message.Header>Just one second</Message.Header>
+                    We are fetching that content for you.
+                </Message.Content>
+            </Message>
+        );
+
+        const StepExampleOrdered = () => (
+            <Step.Group ordered size='tiny'>
+                <Step completed>
+                    <Step.Content>
+                        <Step.Title>Shipping</Step.Title>
+                        <Step.Description>Choose your shipping options</Step.Description>
+                    </Step.Content>
+                </Step>
+
+                <Step completed>
+                    <Step.Content>
+                        <Step.Title>Billing</Step.Title>
+                        <Step.Description>Enter billing information</Step.Description>
+                    </Step.Content>
+                </Step>
+
+                <Step active>
+                    <Step.Content>
+                        <Step.Title>Confirm Order</Step.Title>
+                    </Step.Content>
+                </Step>
+            </Step.Group>
+        );
+
         return <div>
-            <button onClick={this.decrement}>-</button>
-            &nbsp; <span>{this.props.count}</span> &nbsp;
-            <button onClick={this.increment}>+</button>
+            <br/>
+            <MessageExampleIcon/>
+            <br/>
+            <StepExampleOrdered/>
+            <br/>
+            <Button onClick={this.decrement}>-</Button>
+            &nbsp;<Label circular color={"teal"} key={"teal"}>{this.props.count}</Label>&nbsp;
+            <Button onClick={this.increment}>+</Button>
         </div>
     }
 }
-
-const mapDispatchToProps = {
-    increment,
-    decrement
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Counter);

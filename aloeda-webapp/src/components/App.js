@@ -1,7 +1,8 @@
 import React, {useRef} from "react";
 import {getCharacters} from '../service/api/service'
-import Counter from "./Counter/Counter";
+import Counter from "./Counter/CounterRedux";
 import Label from "./Label/Label";
+import {Container} from 'semantic-ui-react'
 
 const DEFAULT_LOGIN = {
     user: {
@@ -170,14 +171,16 @@ export default class App extends React.Component {
 
         return (
             <div>
-                <Table characterData={this.state.characters} removeCharacter={this.removeCharacter}/>
-                <Form handleSubmit={this.handleSubmit}/>
+                <Container>
+                    <Table characterData={this.state.characters} removeCharacter={this.removeCharacter}/>
+                    <Form handleSubmit={this.handleSubmit}/>
 
-                <If condition={true}
-                    then={loginComponent}
-                    else={emptyComponent}/>
-                <Counter/>
-                <Label/>
+                    <If condition={true}
+                        then={loginComponent}
+                        else={emptyComponent}/>
+                    <Counter/>
+                    <Label/>
+                </Container>
             </div>
         )
     }

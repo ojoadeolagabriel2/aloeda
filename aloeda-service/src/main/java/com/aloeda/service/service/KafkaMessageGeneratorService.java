@@ -15,11 +15,12 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class KafkaMessageGeneratorService {
     private static final String TOPIC = "TOPIC3";
+
     private final Environment environment;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private AtomicLong counter = new AtomicLong();
 
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(fixedRate = 3000L)
     public void run() {
         try {
             String message = format("%s-%s", environment.getProperty("spring.application.name"), "message_" + counter.addAndGet(1L));

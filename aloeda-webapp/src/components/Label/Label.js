@@ -10,7 +10,7 @@ function mapStateToProps(state) {
 class Label extends React.Component {
     render() {
         return <div>
-            <span>discovered count: {this.props.count}</span>
+            <span >discovered count: {this.props.count}</span>
         </div>
     }
 }

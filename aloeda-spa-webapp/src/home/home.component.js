@@ -1,12 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App';
-import {Provider} from 'react-redux';
+import React from "react";
+import Label from "../label/label_redux";
 import {createStore} from 'redux';
-import 'semantic-ui-css/semantic.min.css'
+import {Provider} from 'react-redux';
 
 const initialState = {
-    count: 1
+    count: 0
 };
 
 function reducer(state = initialState, action) {
@@ -27,8 +25,12 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer);
 
-ReactDOM.render(
-    <Provider store={store}>
-        <App/>
-    </Provider>,
-    document.getElementById('root'));
+const App = () => {
+    return <div className="container">
+        <Provider store={store}>
+            <Label message="You are welcome now.."/>
+        </Provider>
+    </div>
+};
+
+export default App
