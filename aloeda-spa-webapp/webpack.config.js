@@ -38,7 +38,6 @@ module.exports = {
         modules: [path.resolve(__dirname, 'node_modules')],
     },
     plugins: [
-        // A webpack plugin to remove/clean the output folder before building
         new CleanWebpackPlugin(),
     ],
     devtool: 'source-map',
