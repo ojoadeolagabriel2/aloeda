@@ -2,7 +2,7 @@ import { registerApplication, start } from 'single-spa'
 
 registerApplication(
     'home',
-    () => import('./src/home/home.js'),
+    () => import('./src/components/home/home.js'),
     () => location.pathname === "" ||
         location.pathname === "/" ||
         location.pathname.startsWith('/home')
@@ -10,7 +10,7 @@ registerApplication(
 
 registerApplication(
     'navbar',
-    () => import('./src/navbar/navbar.app.js'),
+    () => import('./src/components/navbar/navbar.app.js'),
     () => location.pathname === "" ||
         location.pathname === "/" ||
         location.pathname.startsWith('/navbar')
