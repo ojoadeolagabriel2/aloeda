@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.Optional.ofNullable;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -28,8 +30,9 @@ public class WelcomeController {
 
     @GetMapping(value = "/{id:^[a-zA-Z0-9_]*$}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<WelcomeResult> get(@PathVariable String id) {
+        Optional<String> applicationName = ofNullable(environment.getProperty(APPLICATION_NAME));
         return ok(
-                new WelcomeResult(id, environment.getProperty(APPLICATION_NAME), "a simple welcome!")
+                new WelcomeResult(id, applicationName.orElse("not-defined"), "a simple welcome!")
         );
     }
 

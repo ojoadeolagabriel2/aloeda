@@ -89,6 +89,7 @@ services:
       - ALOEDA_DB_HOST=app-db
       - APP_NAME=instance-1
       - ALOEDA_KAFKA_HOST=kafka1:9092
+      - APP_SERVER_PORT=kafka1:12345
     depends_on:
       - app-db
       - kafka1
@@ -104,6 +105,7 @@ services:
       - ALOEDA_DB_HOST=app-db
       - APP_NAME=instance-2
       - ALOEDA_KAFKA_HOST=kafka1:9092
+      - APP_SERVER_PORT=kafka1:12345
     depends_on:
       - app-db
       - kafka1

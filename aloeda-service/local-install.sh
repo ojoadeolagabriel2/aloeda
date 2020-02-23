@@ -38,7 +38,7 @@ fi
 
 # prep all
 if [[ "$COMPILE_CONTAINERS" == 'true' ]]; then
-    # switch and compose
+    # switch cd and compose
     (cd ${INSTALLER_PATH} && docker-compose rm -f && docker-compose pull)
 fi
 

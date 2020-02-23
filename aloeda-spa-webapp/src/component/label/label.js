@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Divider, Grid, Icon, Image, Segment, Container, Table
+    Divider, Grid, Icon, Segment, Container
 } from 'semantic-ui-react'
 
 const Label = (props) => {
