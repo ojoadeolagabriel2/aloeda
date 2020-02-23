@@ -1,1 +1,8 @@
 SPRING_PROFILES_ACTIVE=unit_test gradle clean bootRun
+
+
+java -jar ./aloeda-service-1.2-0f0adf9665-1582436008557.jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:8000 --APP_FLYWAY_ENABLED=false
+
+java -jar ./aloeda-service-1.2-0f0adf9665-1582436008557.jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:8000 --spring.profiles.active=no_datasource
+
+java -jar ./aloeda-service-1.2-0f0adf9665-1582436008557.jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:8000 --spring.profiles.active=no_datasource --APP_FLYWAY_ENABLED=false
