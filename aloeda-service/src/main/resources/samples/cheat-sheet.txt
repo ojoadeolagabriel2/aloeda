@@ -7,4 +7,5 @@ java -jar ./aloeda-service-1.2-0f0adf9665-1582436008557.jar -agentlib:jdwp=trans
 
 java -jar ./aloeda-service-1.2-0f0adf9665-1582436008557.jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:8000 --spring.profiles.active=no_datasource --APP_FLYWAY_ENABLED=false
 
-java -Xdebug -Xrunjdwp:transport=dt_socket,address=8998,server=y -jar aloeda-service-1.2-0f0adf9665-1582436008557.jar
+➜ java -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y -jar aloeda-service-1.2-17c37f65ee-1582470273335.jar --spring.profiles.active=no_datasource --APP_FLYWAY_ENABLED=false
+
