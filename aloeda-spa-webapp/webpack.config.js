@@ -5,7 +5,6 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: {
-        // Set the single-spa config as the project entry point
         'single-spa.config': './single-spa.config.js',
     },
     output: {

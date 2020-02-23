@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Author: Adeola Ojo
-# Use:    Processing
+# Use:    Local setup of mono repo services/apps
 
 # Install service and other dependencies
 chmod +x ./aloeda-service/local-install.sh

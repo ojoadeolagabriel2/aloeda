@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -24,12 +23,13 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/welcome")
 public class WelcomeController {
 
+    private static final String APPLICATION_NAME = "spring.application.name";
     private final Environment environment;
 
     @GetMapping(value = "/{id:^[a-zA-Z0-9_]*$}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<WelcomeResult> get(@PathVariable String id) {
         return ok(
-                new WelcomeResult(id, environment.getProperty("spring.application.name"), "a simple welcome!")
+                new WelcomeResult(id, environment.getProperty(APPLICATION_NAME), "a simple welcome!")
         );
     }
 
@@ -39,8 +39,8 @@ public class WelcomeController {
     }
 
     @GetMapping(value = "/characters", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CharacterDto>> getCharacters() {
-        List<CharacterDto> list = asList(
+    public ResponseEntity<Set<CharacterDto>> getCharacters() {
+        Set<CharacterDto> list = Set.of(
                 new CharacterDto("adeola.ojo", "developer"),
                 new CharacterDto("blake.lively", "actor"),
                 new CharacterDto("action.mike", "singer"),

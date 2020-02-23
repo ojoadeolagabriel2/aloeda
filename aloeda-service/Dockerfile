@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine as app-service
+FROM adoptopenjdk/openjdk11:ubi as app-service
 MAINTAINER adeola.ojo
 RUN mkdir /opt/app
 VOLUME /tmp

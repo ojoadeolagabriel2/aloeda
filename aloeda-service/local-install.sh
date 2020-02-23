@@ -22,7 +22,7 @@ do
 done
 
 # clean and assemble
-(cd "$(dirname $0)" && gradle clean assemble)
+(cd "$(dirname $0)" && ./gradlew clean assemble)
 
 # stop all
 if [[ "$STOP_ALL" == 'true' ]]; then

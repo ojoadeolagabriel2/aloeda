@@ -6,13 +6,9 @@ class WelcomeResultTest extends Specification {
 
     def "Can build a new welcome result"() {
         when:
-        def result = WelcomeResult
-                .aWelcomeResult()
-                .name("adeola.ojo")
-                .description("description")
-                .build()
+        def result = new WelcomeResult("1", "adeola.ojo", "xxx")
         then:
         result.getName() == "adeola.ojo"
-        result.getDescription() == "description"
+        result.getDescription() == "xxx"
     }
 }
