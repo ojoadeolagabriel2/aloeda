@@ -14,6 +14,7 @@ import static java.lang.String.format;
 @Slf4j
 @RequiredArgsConstructor
 public class KafkaMessageGeneratorService {
+    private static final String APPLICATION_NAME = "spring.application.name";
     private static final String TOPIC = "TOPIC3";
 
     private final Environment environment;
@@ -23,7 +24,7 @@ public class KafkaMessageGeneratorService {
     @Scheduled(fixedRate = 3000L)
     public void run() {
         try {
-            String message = format("%s-%s", environment.getProperty("spring.application.name"), "message_" + counter.addAndGet(1L));
+            String message = format("%s-%s", environment.getProperty(APPLICATION_NAME), "message_" + counter.addAndGet(1L));
             log.info(format("#### -> Producing message -> %s", message));
             this.kafkaTemplate.send(TOPIC, message);
         } catch (Exception exc) {
